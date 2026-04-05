@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Youooo — Username Checker & People Finder</title>
-  <meta name="description" content="Check if your username is available across 40+ platforms instantly. Plus find people by name — the free modern phone book. No sign-up needed." />
-  <meta property="og:title" content="Youooo — Username Checker & People Finder" />
-  <meta property="og:description" content="Check usernames across 40+ platforms + find anyone by name. Free, instant, no sign-up." />
+  <title>Youooo — Username Checker, Domain Finder & People Search</title>
+  <meta name="description" content="Check usernames across 40+ platforms, find available domains (.com .io .ai .co) and search for people — all free, instant, no sign-up." />
+  <meta property="og:title" content="Youooo — Username, Domain & People Finder" />
+  <meta property="og:description" content="Check usernames across 40+ platforms + find domains + find anyone. Free, instant, no sign-up." />
   <meta property="og:url" content="https://youooo.com" />
   <meta property="og:type" content="website" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>" />
@@ -754,16 +754,203 @@
     /* ══════════════════════════════════
        RESPONSIVE
     ══════════════════════════════════ */
+    /* ══════════════════════════════════
+       DOMAIN CHECKER SECTION
+    ══════════════════════════════════ */
+    .domain-section {
+      background: var(--black);
+      padding: 80px 48px;
+      display: none;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .domain-section.visible { display: block; }
+
+    .domain-inner { max-width: 900px; margin: 0 auto; }
+
+    .domain-header { margin-bottom: 48px; }
+
+    .domain-eyebrow {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 8px;
+    }
+
+    .domain-name-display {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      color: var(--white);
+    }
+
+    .domain-stats {
+      display: flex;
+      gap: 32px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+
+    /* domain grid */
+    .domain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+
+    .domain-card {
+      background: #0f0f0f;
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: background .15s;
+      position: relative;
+    }
+
+    .domain-card:hover { background: #161616; }
+
+    .domain-card .card-left-bar {
+      position: absolute;
+      left: 0; top: 20%; bottom: 20%;
+      width: 2px; border-radius: 2px;
+      opacity: 0; transition: opacity .2s;
+    }
+
+    .domain-card.available .card-left-bar { background: var(--green);  opacity: 1; }
+    .domain-card.taken     .card-left-bar { background: var(--red);    opacity: 1; }
+    .domain-card.loading   .card-left-bar { background: rgba(255,255,255,0.1); opacity: 1; }
+
+    .domain-tld {
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      min-width: 70px;
+      color: var(--white);
+    }
+
+    .domain-full {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .domain-full-name {
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .domain-full-sub {
+      font-size: .75rem;
+      color: rgba(255,255,255,0.3);
+      margin-top: 2px;
+    }
+
+    .domain-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .domain-buy-btn {
+      background: var(--green);
+      color: var(--black);
+      border: none;
+      border-radius: 100px;
+      padding: 8px 18px;
+      font-size: .78rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: opacity .2s;
+      white-space: nowrap;
+      letter-spacing: 0.3px;
+    }
+
+    .domain-buy-btn:hover { opacity: .85; }
+
+    .domain-buy-btn.secondary {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.6);
+    }
+
+    .domain-buy-btn.secondary:hover {
+      background: rgba(255,255,255,0.14);
+      color: var(--white);
+    }
+
+    /* registrar strip */
+    .registrar-strip {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 24px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      align-items: center;
+    }
+
+    .registrar-label {
+      font-size: .75rem;
+      color: rgba(255,255,255,0.3);
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-right: 4px;
+    }
+
+    .registrar-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.7);
+      border-radius: 100px;
+      padding: 8px 18px;
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all .2s;
+      white-space: nowrap;
+    }
+
+    .registrar-btn:hover {
+      background: rgba(255,255,255,0.12);
+      color: var(--white);
+      border-color: rgba(255,255,255,0.2);
+    }
+
+    .affiliate-note {
+      margin-top: 14px;
+      font-size: .75rem;
+      color: rgba(255,255,255,0.2);
+      text-align: center;
+    }
+
     @media (max-width: 768px) {
       nav { padding: 0 20px; }
       .nav-links { display: none; }
       .hero { padding: 100px 20px 80px; }
       .hero-title { letter-spacing: -2px; }
-      .results-section, .people-section, .features { padding: 60px 20px; }
+      .results-section, .people-section, .features, .domain-section { padding: 60px 20px; }
       footer { padding: 32px 20px; }
       .feature-grid { grid-template-columns: 1fr; }
       .people-grid { grid-template-columns: 1fr; }
       .people-fields { grid-template-columns: 1fr; }
+      .domain-grid { grid-template-columns: 1fr; }
+      .domain-actions { flex-direction: column; gap: 6px; }
     }
   </style>
 </head>
@@ -775,6 +962,7 @@
   <ul class="nav-links">
     <li><a href="#features">Features</a></li>
     <li><a href="#" onclick="activateTab('username')">Username</a></li>
+    <li><a href="#" onclick="activateTab('domain')">Domains</a></li>
     <li><a href="#" onclick="activateTab('people')">People Finder</a></li>
     <li><a href="#" class="nav-cta" onclick="scrollToSearch()">Try Free</a></li>
   </ul>
@@ -797,7 +985,10 @@
   <!-- Tab switcher -->
   <div class="hero-tabs">
     <button class="hero-tab active" id="tab-username" onclick="activateTab('username')">
-      🔍 Username Checker
+      🔍 Username
+    </button>
+    <button class="hero-tab" id="tab-domain" onclick="activateTab('domain')">
+      🌐 Domain
     </button>
     <button class="hero-tab" id="tab-people" onclick="activateTab('people')">
       👤 People Finder
@@ -813,6 +1004,17 @@
       <button onclick="checkAll()">Check Now</button>
     </div>
     <p class="form-hint">Checks Instagram, TikTok, GitHub, Reddit, YouTube and 35+ more</p>
+  </div>
+
+  <!-- Domain form -->
+  <div class="form-panel" id="form-domain">
+    <div class="username-row">
+      <input type="text" id="domainInput" placeholder="Enter a name (e.g. mybrand)..."
+             maxlength="50" autocomplete="off" autocorrect="off"
+             autocapitalize="off" spellcheck="false" />
+      <button onclick="checkDomains()">Check</button>
+    </div>
+    <p class="form-hint">Checks .com .net .io .co .ai .app .dev .me .org .co.uk for free</p>
   </div>
 
   <!-- People form -->
@@ -886,6 +1088,41 @@
   </div>
 </section>
 
+<!-- ════════════════════ DOMAIN RESULTS ════════════════════ -->
+<section class="domain-section" id="domainResults">
+  <div class="domain-inner">
+
+    <div class="domain-header">
+      <div class="domain-eyebrow">Domain availability for</div>
+      <div class="domain-name-display" id="domainNameDisplay">—</div>
+    </div>
+
+    <div class="domain-stats">
+      <div class="stat">
+        <div class="stat-number green" id="domainAvailable">0</div>
+        <div class="stat-label">Available</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number red" id="domainTaken">0</div>
+        <div class="stat-label">Taken</div>
+      </div>
+    </div>
+
+    <div class="domain-grid" id="domainGrid"></div>
+
+    <!-- Registrar links -->
+    <div class="registrar-strip" id="registrarStrip" style="display:none">
+      <span class="registrar-label">Buy on</span>
+      <a class="registrar-btn" id="regNamecheap" href="#" target="_blank" rel="noopener">🐲 Namecheap</a>
+      <a class="registrar-btn" id="regGodaddy"   href="#" target="_blank" rel="noopener">🔵 GoDaddy</a>
+      <a class="registrar-btn" id="regPorkbun"   href="#" target="_blank" rel="noopener">🐷 Porkbun</a>
+      <a class="registrar-btn" id="regCloudflare" href="#" target="_blank" rel="noopener">🟠 Cloudflare</a>
+    </div>
+    <p class="affiliate-note">Links open the registrar's search page · Compare prices before buying</p>
+
+  </div>
+</section>
+
 <!-- ════════════════════ FEATURES ════════════════════ -->
 <section class="features" id="features">
   <div class="features-inner">
@@ -905,6 +1142,11 @@
         <span class="feature-icon">📋</span>
         <div class="feature-title">Copy in one click</div>
         <p class="feature-desc">Found your username is available everywhere? Copy all available platforms with a single click.</p>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🌐</span>
+        <div class="feature-title">Domain Checker</div>
+        <p class="feature-desc">Check .com .io .ai .co .app and 8 more extensions instantly. See prices and buy with one click.</p>
       </div>
       <div class="feature-item">
         <span class="feature-icon">👤</span>
@@ -930,6 +1172,7 @@
   <div class="footer-logo">youooo ✦</div>
   <ul class="footer-links">
     <li><a href="#" onclick="activateTab('username')">Username Checker</a></li>
+    <li><a href="#" onclick="activateTab('domain')">Domain Checker</a></li>
     <li><a href="#" onclick="activateTab('people')">People Finder</a></li>
     <li><a href="#features">Features</a></li>
   </ul>
@@ -947,6 +1190,7 @@ function activateTab(tab) {
   document.querySelectorAll(".form-panel").forEach(p => p.classList.remove("active"));
   document.getElementById(`tab-${tab}`).classList.add("active");
   document.getElementById(`form-${tab}`).classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
   if (typeof gtag !== "undefined")
     gtag("event", "tab_switch", { event_category: "navigation", event_label: tab });
 }
@@ -1236,6 +1480,159 @@ function findPeople() {
   document.getElementById(id).addEventListener("keydown", e => {
     if (e.key === "Enter") findPeople();
   });
+});
+
+// ══════════════════════════════════════════════════
+// DOMAIN CHECKER — uses Google DNS-over-HTTPS (free)
+// ══════════════════════════════════════════════════
+
+const TLDS = [
+  { ext: ".com",   label: "Most popular",       popular: true  },
+  { ext: ".net",   label: "Classic alternative", popular: false },
+  { ext: ".io",    label: "Tech & startups",     popular: true  },
+  { ext: ".co",    label: "Short & modern",      popular: false },
+  { ext: ".ai",    label: "AI & tech",           popular: true  },
+  { ext: ".app",   label: "Apps & software",     popular: false },
+  { ext: ".dev",   label: "Developers",          popular: false },
+  { ext: ".me",    label: "Personal brands",     popular: false },
+  { ext: ".org",   label: "Organizations",       popular: false },
+  { ext: ".co.uk", label: "UK market",           popular: false },
+  { ext: ".store", label: "E-commerce",          popular: false },
+  { ext: ".online",label: "General online",      popular: false },
+];
+
+// ── REGISTRAR PRICE ESTIMATES ──────────────────────
+const TLD_PRICES = {
+  ".com": "$9–12/yr", ".net": "$10–14/yr", ".io": "$30–40/yr",
+  ".co": "$25–30/yr", ".ai": "$60–80/yr",  ".app": "$14–18/yr",
+  ".dev": "$12–16/yr",".me": "$8–12/yr",   ".org": "$10–14/yr",
+  ".co.uk": "$5–8/yr",".store": "$5–10/yr",".online": "$3–8/yr",
+};
+
+let domainCntAvail = 0, domainCntTaken = 0, currentDomain = "";
+
+async function checkDomains() {
+  const raw = document.getElementById("domainInput").value.trim()
+    .toLowerCase().replace(/[^a-z0-9-]/g, "").replace(/^-+|-+$/g, "");
+
+  if (!raw) { document.getElementById("domainInput").focus(); return; }
+
+  currentDomain = raw;
+  domainCntAvail = 0; domainCntTaken = 0;
+
+  document.getElementById("domainNameDisplay").textContent = raw;
+  document.getElementById("domainResults").classList.add("visible");
+  document.getElementById("usernameResults").classList.remove("visible");
+  document.getElementById("peopleResults").classList.remove("visible");
+  document.getElementById("registrarStrip").style.display = "none";
+  document.getElementById("domainAvailable").textContent = "0";
+  document.getElementById("domainTaken").textContent     = "0";
+
+  // Registrar links
+  const q = encodeURIComponent(raw);
+  document.getElementById("regNamecheap").href  = `https://www.namecheap.com/domains/registration/results/?domain=${raw}`;
+  document.getElementById("regGodaddy").href    = `https://www.godaddy.com/domainsearch/find?domainToCheck=${raw}`;
+  document.getElementById("regPorkbun").href    = `https://porkbun.com/checkout/search?q=${raw}`;
+  document.getElementById("regCloudflare").href = `https://www.cloudflare.com/products/registrar/`;
+
+  if (typeof gtag !== "undefined")
+    gtag("event", "domain_search", { event_category: "domain", event_label: raw });
+
+  const grid = document.getElementById("domainGrid");
+  grid.innerHTML = "";
+
+  // Render loading cards
+  TLDS.forEach((t, i) => {
+    grid.appendChild(makeDomainCard(i, raw, t, "loading", null));
+  });
+
+  setTimeout(() => {
+    document.getElementById("domainResults").scrollIntoView({ behavior: "smooth", block: "start" });
+  }, 100);
+
+  // Check each TLD in parallel
+  await Promise.all(TLDS.map((t, i) =>
+    checkDomainAvailability(raw + t.ext).then(available => {
+      if (available) domainCntAvail++; else domainCntTaken++;
+      document.getElementById("domainAvailable").textContent = domainCntAvail;
+      document.getElementById("domainTaken").textContent     = domainCntTaken;
+      const old = document.getElementById(`dcard-${i}`);
+      if (old) old.replaceWith(makeDomainCard(i, raw, t, available ? "available" : "taken", available));
+    })
+  ));
+
+  // Show registrar strip
+  document.getElementById("registrarStrip").style.display = "flex";
+}
+
+async function checkDomainAvailability(domain) {
+  // Google DNS-over-HTTPS: NXDOMAIN (status 3) = not registered = available
+  try {
+    const res  = await fetch(`https://dns.google/resolve?name=${domain}&type=A`);
+    const data = await res.json();
+    // Status 3 = NXDOMAIN (domain doesn't exist in DNS = available)
+    // Status 0 = NOERROR (domain has DNS records = taken)
+    return data.Status === 3;
+  } catch {
+    // If we can't check, return null (unknown)
+    return null;
+  }
+}
+
+function makeDomainCard(i, name, tld, status, available) {
+  const card = document.createElement("div");
+  card.id = `dcard-${i}`;
+  card.className = `domain-card ${status}`;
+
+  const fullDomain = name + tld.ext;
+  const price = TLD_PRICES[tld.ext] || "";
+
+  let badgeHtml = "";
+  let actionsHtml = "";
+
+  if (status === "loading") {
+    badgeHtml = `<span class="status-badge badge-loading"><span class="spinner"></span></span>`;
+  } else if (status === "available") {
+    badgeHtml = `<span class="status-badge badge-available">Available</span>`;
+    const searchUrl = `https://www.namecheap.com/domains/registration/results/?domain=${fullDomain}`;
+    actionsHtml = `
+      <a class="domain-buy-btn" href="${searchUrl}" target="_blank" rel="noopener"
+         onclick="trackDomainClick('${fullDomain}','namecheap')">
+        Buy ${price}
+      </a>
+    `;
+  } else if (status === "taken") {
+    badgeHtml = `<span class="status-badge badge-taken">Taken</span>`;
+    const whoisUrl = `https://who.is/whois/${fullDomain}`;
+    actionsHtml = `
+      <a class="domain-buy-btn secondary" href="${whoisUrl}" target="_blank" rel="noopener">
+        Whois →
+      </a>
+    `;
+  }
+
+  card.innerHTML = `
+    <div class="card-left-bar"></div>
+    <div class="domain-tld">${tld.ext}</div>
+    <div class="domain-full">
+      <div class="domain-full-name">${fullDomain}</div>
+      <div class="domain-full-sub">${tld.label}${price && status === "available" ? " · " + price : ""}</div>
+    </div>
+    <div class="domain-actions">
+      ${badgeHtml}
+      ${actionsHtml}
+    </div>
+  `;
+  return card;
+}
+
+function trackDomainClick(domain, registrar) {
+  if (typeof gtag !== "undefined")
+    gtag("event", "domain_buy_click", { event_category: "affiliate", event_label: `${domain}@${registrar}` });
+}
+
+document.getElementById("domainInput").addEventListener("keydown", e => {
+  if (e.key === "Enter") checkDomains();
 });
 
 // ══════════════════════════════════════════════════
