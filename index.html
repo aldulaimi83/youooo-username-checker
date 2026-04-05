@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Youooo — Username Checker</title>
-  <meta name="description" content="Check if your username is available across Instagram, TikTok, Twitter, YouTube, GitHub, Reddit and 20+ more platforms instantly. Free username checker." />
-  <meta property="og:title" content="Youooo — Username Checker" />
-  <meta property="og:description" content="Check your username across 20+ platforms in one click. 100% free." />
+  <title>Youooo — Username Checker & People Finder</title>
+  <meta name="description" content="Check if your username is available across 40+ platforms instantly. Plus find people by name — the free modern phone book. No sign-up needed." />
+  <meta property="og:title" content="Youooo — Username Checker & People Finder" />
+  <meta property="og:description" content="Check usernames across 40+ platforms + find anyone by name. Free, instant, no sign-up." />
   <meta property="og:url" content="https://youooo.com" />
   <meta property="og:type" content="website" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>" />
@@ -47,11 +47,47 @@
       align-items: center;
     }
 
+    /* ── NAV TABS ── */
+    .nav {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 20px 20px 0;
+    }
+
+    .nav-tab {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      color: var(--muted);
+      border-radius: 30px;
+      padding: 10px 24px;
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .nav-tab.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-color: transparent;
+      color: #fff;
+    }
+
+    .nav-tab:hover:not(.active) {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    /* ── PAGES ── */
+    .page { display: none; width: 100%; }
+    .page.active { display: flex; flex-direction: column; align-items: center; }
+
     /* ── HERO ── */
     .hero {
       width: 100%;
       text-align: center;
-      padding: 64px 24px 48px;
+      padding: 48px 24px 40px;
       background: radial-gradient(ellipse 80% 50% at 50% -10%, #7c3aed22, transparent);
     }
 
@@ -65,17 +101,13 @@
       background-clip: text;
     }
 
-    .tagline {
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 1.05rem;
-    }
+    .tagline { margin-top: 10px; color: var(--muted); font-size: 1.05rem; }
 
     /* ── SEARCH ── */
     .search-wrap {
       width: 100%;
       max-width: 580px;
-      margin: 36px auto 0;
+      margin: 32px auto 0;
       padding: 0 20px;
     }
 
@@ -122,14 +154,146 @@
     .search-box button:hover  { opacity: .88; }
     .search-box button:active { transform: scale(.97); }
 
-    .hint {
-      text-align: center;
-      margin-top: 12px;
-      font-size: .85rem;
-      color: var(--muted);
+    .hint { text-align: center; margin-top: 12px; font-size: .85rem; color: var(--muted); }
+
+    /* ── PEOPLE FINDER FORM ── */
+    .people-form {
+      width: 100%;
+      max-width: 680px;
+      margin: 32px auto 0;
+      padding: 0 20px;
     }
 
-    /* ── RESULTS ── */
+    .people-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .people-fields input, .people-location {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      color: var(--text);
+      font-size: 1rem;
+      outline: none;
+      width: 100%;
+      transition: border-color .2s;
+    }
+
+    .people-fields input:focus,
+    .people-location:focus { border-color: var(--accent); }
+
+    .people-fields input::placeholder,
+    .people-location::placeholder { color: var(--muted); }
+
+    .people-location { margin-bottom: 10px; }
+
+    .people-search-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 15px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .2s;
+    }
+
+    .people-search-btn:hover { opacity: .88; }
+
+    /* ── PEOPLE RESULTS ── */
+    .people-results {
+      width: 100%;
+      max-width: 760px;
+      padding: 36px 20px 80px;
+      display: none;
+    }
+
+    .people-results.visible { display: block; }
+
+    .people-results-title {
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .people-results-title span { color: var(--text); font-weight: 700; }
+
+    .people-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 14px;
+    }
+
+    .people-card {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      transition: border-color .2s, transform .15s;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .people-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+
+    .people-site-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .people-card-info { flex: 1; min-width: 0; }
+
+    .people-site-name {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .people-site-desc {
+      font-size: .8rem;
+      color: var(--muted);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+
+    .people-arrow {
+      color: var(--muted);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    /* disclaimer */
+    .disclaimer {
+      margin-top: 28px;
+      padding: 16px 20px;
+      background: #f59e0b10;
+      border: 1px solid #f59e0b30;
+      border-radius: 12px;
+      font-size: .82rem;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* ── USERNAME RESULTS ── */
     .results {
       width: 100%;
       max-width: 960px;
@@ -148,14 +312,9 @@
       margin-bottom: 24px;
     }
 
-    .results-title {
-      font-size: 1.1rem;
-      color: var(--muted);
-    }
-
+    .results-title { font-size: 1.1rem; color: var(--muted); }
     .results-title span { color: var(--text); font-weight: 700; }
 
-    /* copy button */
     .copy-btn {
       background: linear-gradient(135deg, var(--green), #059669);
       color: #fff;
@@ -168,40 +327,22 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: opacity .2s, transform .1s;
+      transition: opacity .2s;
     }
 
-    .copy-btn:hover  { opacity: .88; }
-    .copy-btn:active { transform: scale(.97); }
+    .copy-btn:hover { opacity: .88; }
     .copy-btn.copied { background: linear-gradient(135deg, #64748b, #475569); }
 
-    /* summary bar */
-    .summary {
-      display: flex;
-      gap: 24px;
-      margin-bottom: 32px;
-      flex-wrap: wrap;
-    }
+    .summary { display: flex; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
 
-    .summary-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: .95rem;
-    }
+    .summary-item { display: flex; align-items: center; gap: 8px; font-size: .95rem; }
 
     .dot { width: 10px; height: 10px; border-radius: 50%; }
-    .dot.green  { background: var(--green);  }
-    .dot.red    { background: var(--red);    }
-    .dot.yellow { background: var(--yellow); }
+    .dot.green  { background: var(--green); }
+    .dot.red    { background: var(--red);   }
+    .dot.yellow { background: var(--yellow);}
 
-    /* filter tabs */
-    .filters {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
+    .filters { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
 
     .filter-btn {
       background: var(--card);
@@ -215,15 +356,9 @@
       transition: all .15s;
     }
 
-    .filter-btn.active,
-    .filter-btn:hover {
-      border-color: var(--accent);
-      color: var(--text);
-    }
-
+    .filter-btn.active, .filter-btn:hover { border-color: var(--accent); color: var(--text); }
     .filter-btn.active { background: #7c3aed22; }
 
-    /* grid */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -240,7 +375,6 @@
       gap: 14px;
       transition: border-color .2s, transform .15s;
       cursor: default;
-      position: relative;
     }
 
     .card:hover { transform: translateY(-2px); }
@@ -252,39 +386,26 @@
     .platform-icon {
       width: 42px; height: 42px;
       border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
     }
 
     .card-info { flex: 1; min-width: 0; }
 
     .platform-name {
-      font-weight: 700;
-      font-size: .95rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-weight: 700; font-size: .95rem;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
     .platform-url {
-      font-size: .78rem;
-      color: var(--muted);
-      margin-top: 2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-size: .78rem; color: var(--muted); margin-top: 2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
     .status-badge {
-      font-size: .75rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 20px;
-      white-space: nowrap;
-      flex-shrink: 0;
+      font-size: .75rem; font-weight: 700;
+      padding: 4px 10px; border-radius: 20px;
+      white-space: nowrap; flex-shrink: 0;
     }
 
     .badge-available { background: #10b98120; color: var(--green); }
@@ -304,18 +425,12 @@
 
     /* ── TOAST ── */
     .toast {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
+      position: fixed; bottom: 30px; left: 50%;
       transform: translateX(-50%) translateY(80px);
-      background: var(--green);
-      color: #fff;
-      font-weight: 700;
-      padding: 12px 28px;
-      border-radius: 40px;
-      font-size: .95rem;
-      transition: transform .3s ease;
-      z-index: 999;
+      background: var(--green); color: #fff;
+      font-weight: 700; padding: 12px 28px;
+      border-radius: 40px; font-size: .95rem;
+      transition: transform .3s ease; z-index: 999;
       pointer-events: none;
     }
 
@@ -323,159 +438,206 @@
 
     /* ── FOOTER ── */
     footer {
-      margin-top: auto;
-      padding: 20px;
-      text-align: center;
-      font-size: .8rem;
-      color: var(--muted);
+      margin-top: auto; padding: 20px;
+      text-align: center; font-size: .8rem; color: var(--muted);
     }
 
     footer a { color: var(--accent2); text-decoration: none; }
 
-    @media (max-width: 500px) {
+    @media (max-width: 540px) {
       .logo { font-size: 2rem; }
       .search-box button { padding: 11px 18px; font-size: .9rem; }
       .grid { grid-template-columns: 1fr; }
+      .people-fields { grid-template-columns: 1fr; }
+      .people-grid { grid-template-columns: 1fr; }
       .results-header { flex-direction: column; align-items: flex-start; }
+      .nav-tab { padding: 8px 16px; font-size: .85rem; }
     }
   </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="logo">youooo ✦</div>
-  <p class="tagline">Check your username across 25+ platforms instantly</p>
-
-  <div class="search-wrap">
-    <div class="search-box">
-      <input type="text" id="usernameInput" placeholder="Enter username..."
-             maxlength="50" autocomplete="off" autocorrect="off"
-             autocapitalize="off" spellcheck="false" />
-      <button id="checkBtn" onclick="checkAll()">Check</button>
-    </div>
-  </div>
-  <p class="hint">No sign-up needed · 100% free · Results in seconds</p>
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-tab active" onclick="switchTab('username')">🔍 Username Checker</button>
+  <button class="nav-tab" onclick="switchTab('people')">👤 People Finder</button>
 </div>
 
-<div class="results" id="results">
-  <div class="results-header">
-    <div class="results-title">Results for <span id="resultUsername"></span></div>
-    <button class="copy-btn" id="copyBtn" onclick="copyAvailable()">
-      📋 Copy Available Usernames
-    </button>
+<!-- ══════════════ USERNAME CHECKER PAGE ══════════════ -->
+<div class="page active" id="page-username">
+
+  <div class="hero">
+    <div class="logo">youooo ✦</div>
+    <p class="tagline">Check your username across 40+ platforms instantly</p>
+
+    <div class="search-wrap">
+      <div class="search-box">
+        <input type="text" id="usernameInput" placeholder="Enter username..."
+               maxlength="50" autocomplete="off" autocorrect="off"
+               autocapitalize="off" spellcheck="false" />
+        <button onclick="checkAll()">Check</button>
+      </div>
+    </div>
+    <p class="hint">No sign-up needed · 100% free · Results in seconds</p>
   </div>
 
-  <div class="summary">
-    <div class="summary-item"><div class="dot green"></div><span id="countAvailable">0 Available</span></div>
-    <div class="summary-item"><div class="dot red"></div><span id="countTaken">0 Taken</span></div>
-    <div class="summary-item"><div class="dot yellow"></div><span id="countCheck">0 Check Manually</span></div>
+  <div class="results" id="results">
+    <div class="results-header">
+      <div class="results-title">Results for <span id="resultUsername"></span></div>
+      <button class="copy-btn" id="copyBtn" onclick="copyAvailable()">
+        📋 Copy Available
+      </button>
+    </div>
+
+    <div class="summary">
+      <div class="summary-item"><div class="dot green"></div><span id="countAvailable">0 Available</span></div>
+      <div class="summary-item"><div class="dot red"></div><span id="countTaken">0 Taken</span></div>
+      <div class="summary-item"><div class="dot yellow"></div><span id="countCheck">0 Check Manually</span></div>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all"       onclick="filterCards('all', this)">All</button>
+      <button class="filter-btn"        data-filter="available" onclick="filterCards('available', this)">✓ Available</button>
+      <button class="filter-btn"        data-filter="taken"     onclick="filterCards('taken', this)">✗ Taken</button>
+      <button class="filter-btn"        data-filter="checking"  onclick="filterCards('checking', this)">→ Check Manually</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
   </div>
 
-  <div class="filters">
-    <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
-    <button class="filter-btn" onclick="filterCards('available', this)">✓ Available</button>
-    <button class="filter-btn" onclick="filterCards('taken', this)">✗ Taken</button>
-    <button class="filter-btn" onclick="filterCards('checking', this)">→ Check Manually</button>
+</div>
+
+<!-- ══════════════ PEOPLE FINDER PAGE ══════════════ -->
+<div class="page" id="page-people">
+
+  <div class="hero">
+    <div class="logo">youooo ✦</div>
+    <p class="tagline">Find anyone — the modern phone book, free forever</p>
+
+    <div class="people-form">
+      <div class="people-fields">
+        <input type="text" id="firstName" placeholder="First Name" autocomplete="off" />
+        <input type="text" id="lastName"  placeholder="Last Name"  autocomplete="off" />
+      </div>
+      <input type="text" id="locationInput" class="people-location"
+             placeholder="City, State or Country (optional)" autocomplete="off" />
+      <button class="people-search-btn" onclick="findPeople()">🔍 Find Person</button>
+    </div>
+    <p class="hint">Searches across public records, social networks & directories</p>
   </div>
 
-  <div class="grid" id="grid"></div>
+  <div class="people-results" id="peopleResults">
+    <div class="people-results-title">
+      Searching public records for <span id="personName"></span>
+    </div>
+
+    <div class="people-grid" id="peopleGrid"></div>
+
+    <div class="disclaimer">
+      ⚠️ Youooo only links to publicly available information from third-party sites.
+      We do not store, collect, or sell any personal data.
+      Results are from public records and social networks.
+    </div>
+  </div>
+
 </div>
 
 <div class="toast" id="toast"></div>
 
 <footer>
   Made with ♥ · <a href="https://youooo.com">youooo.com</a>
-  · Check your username across 25+ social platforms for free
+  · Free username checker &amp; people finder
 </footer>
 
 <script>
-// ── Platforms ─────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════
+// TAB SWITCHING
+// ══════════════════════════════════════════════════════
+function switchTab(tab) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".nav-tab").forEach(b => b.classList.remove("active"));
+  document.getElementById(`page-${tab}`).classList.add("active");
+  event.target.classList.add("active");
+
+  if (typeof gtag !== "undefined") {
+    gtag("event", "tab_switch", { event_category: "navigation", event_label: tab });
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// USERNAME CHECKER
+// ══════════════════════════════════════════════════════
 const PLATFORMS = [
   // Social
-  { name:"Instagram",   icon:"📸", bg:"#fff0f5", url:u=>`https://instagram.com/${u}`,          method:"link" },
-  { name:"TikTok",      icon:"🎵", bg:"#f0fffe", url:u=>`https://tiktok.com/@${u}`,            method:"link" },
-  { name:"Twitter / X", icon:"✖️", bg:"#f0f8ff", url:u=>`https://x.com/${u}`,                  method:"link" },
-  { name:"Facebook",    icon:"👤", bg:"#f0f4ff", url:u=>`https://facebook.com/${u}`,            method:"link" },
-  { name:"Snapchat",    icon:"👻", bg:"#fffef0", url:u=>`https://snapchat.com/add/${u}`,        method:"link" },
-  { name:"Threads",     icon:"🧵", bg:"#f5f0ff", url:u=>`https://threads.net/@${u}`,            method:"link" },
-  { name:"Mastodon",    icon:"🐘", bg:"#f0f0ff", url:u=>`https://mastodon.social/@${u}`,        method:"link" },
-  { name:"BeReal",      icon:"📷", bg:"#fff8f0", url:u=>`https://bere.al/${u}`,                 method:"link" },
-
+  { name:"Instagram",    icon:"📸", bg:"#fff0f5", url:u=>`https://instagram.com/${u}`,           method:"link" },
+  { name:"TikTok",       icon:"🎵", bg:"#f0fffe", url:u=>`https://tiktok.com/@${u}`,             method:"link" },
+  { name:"Twitter / X",  icon:"✖️", bg:"#f0f8ff", url:u=>`https://x.com/${u}`,                   method:"link" },
+  { name:"Facebook",     icon:"👤", bg:"#f0f4ff", url:u=>`https://facebook.com/${u}`,             method:"link" },
+  { name:"Snapchat",     icon:"👻", bg:"#fffef0", url:u=>`https://snapchat.com/add/${u}`,         method:"link" },
+  { name:"Threads",      icon:"🧵", bg:"#f5f0ff", url:u=>`https://threads.net/@${u}`,             method:"link" },
+  { name:"Mastodon",     icon:"🐘", bg:"#f0f0ff", url:u=>`https://mastodon.social/@${u}`,         method:"link" },
+  { name:"BeReal",       icon:"📷", bg:"#fff8f0", url:u=>`https://bere.al/${u}`,                  method:"link" },
   // Video
-  { name:"YouTube",     icon:"▶️", bg:"#fff5f5", url:u=>`https://youtube.com/@${u}`,            method:"link" },
-  { name:"Twitch",      icon:"🎮", bg:"#f8f0ff", url:u=>`https://twitch.tv/${u}`,               method:"link" },
-  { name:"Vimeo",       icon:"🎬", bg:"#f0f8ff", url:u=>`https://vimeo.com/${u}`,               method:"link" },
-  { name:"Dailymotion", icon:"📹", bg:"#fff5f0", url:u=>`https://dailymotion.com/${u}`,         method:"link" },
-
-  // Dev / Tech
-  { name:"GitHub",      icon:"🐙", bg:"#f0f6ff",
-    url:u=>`https://github.com/${u}`, method:"api",
-    api:u=>`https://api.github.com/users/${u}` },
-  { name:"GitLab",      icon:"🦊", bg:"#fff5f0", url:u=>`https://gitlab.com/${u}`,              method:"link" },
-  { name:"Dev.to",      icon:"💻", bg:"#f5f5f5",
-    url:u=>`https://dev.to/${u}`, method:"api",
-    api:u=>`https://dev.to/api/users/by_username?url=${u}` },
-  { name:"Hashnode",    icon:"📓", bg:"#f5f0ff", url:u=>`https://hashnode.com/@${u}`,           method:"link" },
-  { name:"Stack Overflow",icon:"📚",bg:"#fff8f0",url:u=>`https://stackoverflow.com/users?tab=Reputation&filter=${u}`, method:"link" },
-  { name:"Replit",      icon:"⚡", bg:"#f0fff8", url:u=>`https://replit.com/@${u}`,             method:"link" },
-  { name:"Codepen",     icon:"🖊️", bg:"#f0f8ff", url:u=>`https://codepen.io/${u}`,              method:"link" },
-  { name:"Kaggle",      icon:"📊", bg:"#f0fbff", url:u=>`https://kaggle.com/${u}`,              method:"link" },
-
+  { name:"YouTube",      icon:"▶️", bg:"#fff5f5", url:u=>`https://youtube.com/@${u}`,             method:"link" },
+  { name:"Twitch",       icon:"🎮", bg:"#f8f0ff", url:u=>`https://twitch.tv/${u}`,                method:"link" },
+  { name:"Vimeo",        icon:"🎬", bg:"#f0f8ff", url:u=>`https://vimeo.com/${u}`,                method:"link" },
+  { name:"Dailymotion",  icon:"📹", bg:"#fff5f0", url:u=>`https://dailymotion.com/${u}`,          method:"link" },
+  // Dev
+  { name:"GitHub",       icon:"🐙", bg:"#f0f6ff", url:u=>`https://github.com/${u}`,
+    method:"api", api:u=>`https://api.github.com/users/${u}` },
+  { name:"GitLab",       icon:"🦊", bg:"#fff5f0", url:u=>`https://gitlab.com/${u}`,               method:"link" },
+  { name:"Dev.to",       icon:"💻", bg:"#f5f5f5", url:u=>`https://dev.to/${u}`,
+    method:"api", api:u=>`https://dev.to/api/users/by_username?url=${u}` },
+  { name:"Hashnode",     icon:"📓", bg:"#f5f0ff", url:u=>`https://hashnode.com/@${u}`,            method:"link" },
+  { name:"Stack Overflow",icon:"📚",bg:"#fff8f0", url:u=>`https://stackoverflow.com/users?tab=Reputation&filter=${u}`, method:"link" },
+  { name:"Replit",       icon:"⚡", bg:"#f0fff8", url:u=>`https://replit.com/@${u}`,              method:"link" },
+  { name:"Codepen",      icon:"🖊️", bg:"#f0f8ff", url:u=>`https://codepen.io/${u}`,               method:"link" },
+  { name:"Kaggle",       icon:"📊", bg:"#f0fbff", url:u=>`https://kaggle.com/${u}`,               method:"link" },
   // Community
-  { name:"Reddit",      icon:"🤖", bg:"#fff1ec",
-    url:u=>`https://reddit.com/user/${u}`, method:"api",
-    api:u=>`https://www.reddit.com/user/${u}/about.json` },
-  { name:"Discord",     icon:"🎧", bg:"#f3f4ff", url:u=>`https://discord.com`,                  method:"link", note:"Search in Discord app" },
-  { name:"Telegram",    icon:"✈️", bg:"#f0f9ff", url:u=>`https://t.me/${u}`,                    method:"link" },
-  { name:"Quora",       icon:"❓", bg:"#fff5f5", url:u=>`https://quora.com/profile/${u}`,        method:"link" },
-
+  { name:"Reddit",       icon:"🤖", bg:"#fff1ec", url:u=>`https://reddit.com/user/${u}`,
+    method:"api", api:u=>`https://www.reddit.com/user/${u}/about.json` },
+  { name:"Discord",      icon:"🎧", bg:"#f3f4ff", url:u=>`https://discord.com`,                   method:"link", note:"Search in Discord app" },
+  { name:"Telegram",     icon:"✈️", bg:"#f0f9ff", url:u=>`https://t.me/${u}`,                     method:"link" },
+  { name:"Quora",        icon:"❓", bg:"#fff5f5", url:u=>`https://quora.com/profile/${u}`,         method:"link" },
   // Creative
-  { name:"Pinterest",   icon:"📌", bg:"#fff5f5", url:u=>`https://pinterest.com/${u}`,           method:"link" },
-  { name:"Behance",     icon:"🎨", bg:"#f0f5ff", url:u=>`https://behance.net/${u}`,             method:"link" },
-  { name:"Dribbble",    icon:"🏀", bg:"#fff0f8", url:u=>`https://dribbble.com/${u}`,            method:"link" },
-  { name:"Flickr",      icon:"📷", bg:"#f0f8ff", url:u=>`https://flickr.com/people/${u}`,       method:"link" },
-  { name:"500px",       icon:"🖼️", bg:"#f5f5f5", url:u=>`https://500px.com/p/${u}`,             method:"link" },
-
+  { name:"Pinterest",    icon:"📌", bg:"#fff5f5", url:u=>`https://pinterest.com/${u}`,            method:"link" },
+  { name:"Behance",      icon:"🎨", bg:"#f0f5ff", url:u=>`https://behance.net/${u}`,              method:"link" },
+  { name:"Dribbble",     icon:"🏀", bg:"#fff0f8", url:u=>`https://dribbble.com/${u}`,             method:"link" },
+  { name:"Flickr",       icon:"📷", bg:"#f0f8ff", url:u=>`https://flickr.com/people/${u}`,        method:"link" },
+  { name:"500px",        icon:"🖼️", bg:"#f5f5f5", url:u=>`https://500px.com/p/${u}`,              method:"link" },
   // Music
-  { name:"Spotify",     icon:"🎧", bg:"#f0fff5", url:u=>`https://open.spotify.com/user/${u}`,   method:"link" },
-  { name:"SoundCloud",  icon:"🔊", bg:"#fff5f0", url:u=>`https://soundcloud.com/${u}`,          method:"link" },
-  { name:"Last.fm",     icon:"🎵", bg:"#fff5f5", url:u=>`https://last.fm/user/${u}`,            method:"link" },
-  { name:"Bandcamp",    icon:"🎸", bg:"#f5fff0", url:u=>`https://${u}.bandcamp.com`,             method:"link" },
-
-  // Professional
-  { name:"LinkedIn",    icon:"💼", bg:"#f0f8ff", url:u=>`https://linkedin.com/in/${u}`,         method:"link" },
-  { name:"Medium",      icon:"📝", bg:"#f8f8f8", url:u=>`https://medium.com/@${u}`,             method:"link" },
-  { name:"Substack",    icon:"📨", bg:"#fff8f0", url:u=>`https://${u}.substack.com`,             method:"link" },
-  { name:"Product Hunt",icon:"🐱", bg:"#fff5f0", url:u=>`https://producthunt.com/@${u}`,        method:"link" },
-  { name:"AngelList",   icon:"🚀", bg:"#f5f5f5", url:u=>`https://angel.co/u/${u}`,              method:"link" },
-
+  { name:"Spotify",      icon:"🎧", bg:"#f0fff5", url:u=>`https://open.spotify.com/user/${u}`,    method:"link" },
+  { name:"SoundCloud",   icon:"🔊", bg:"#fff5f0", url:u=>`https://soundcloud.com/${u}`,           method:"link" },
+  { name:"Last.fm",      icon:"🎵", bg:"#fff5f5", url:u=>`https://last.fm/user/${u}`,             method:"link" },
+  { name:"Bandcamp",     icon:"🎸", bg:"#f5fff0", url:u=>`https://${u}.bandcamp.com`,              method:"link" },
+  // Pro
+  { name:"LinkedIn",     icon:"💼", bg:"#f0f8ff", url:u=>`https://linkedin.com/in/${u}`,          method:"link" },
+  { name:"Medium",       icon:"📝", bg:"#f8f8f8", url:u=>`https://medium.com/@${u}`,              method:"link" },
+  { name:"Substack",     icon:"📨", bg:"#fff8f0", url:u=>`https://${u}.substack.com`,              method:"link" },
+  { name:"Product Hunt", icon:"🐱", bg:"#fff5f0", url:u=>`https://producthunt.com/@${u}`,         method:"link" },
+  { name:"AngelList",    icon:"🚀", bg:"#f5f5f5", url:u=>`https://angel.co/u/${u}`,               method:"link" },
   // Gaming
-  { name:"Steam",       icon:"🎮", bg:"#f0f4ff",
-    url:u=>`https://steamcommunity.com/id/${u}`, method:"api",
-    api:u=>`https://steamcommunity.com/id/${u}/?xml=1` },
-  { name:"Xbox",        icon:"🟢", bg:"#f0fff5", url:u=>`https://account.xbox.com/profile?gamertag=${u}`, method:"link" },
-  { name:"PSN",         icon:"🎮", bg:"#f0f5ff", url:u=>`https://psnprofiles.com/${u}`,         method:"link" },
-  { name:"Roblox",      icon:"🧱", bg:"#fff5f5", url:u=>`https://roblox.com/user.aspx?username=${u}`,    method:"link" },
+  { name:"Steam",        icon:"🎮", bg:"#f0f4ff", url:u=>`https://steamcommunity.com/id/${u}`,
+    method:"api", api:u=>`https://steamcommunity.com/id/${u}/?xml=1` },
+  { name:"Xbox",         icon:"🟢", bg:"#f0fff5", url:u=>`https://account.xbox.com/profile?gamertag=${u}`, method:"link" },
+  { name:"PSN",          icon:"🎮", bg:"#f0f5ff", url:u=>`https://psnprofiles.com/${u}`,          method:"link" },
+  { name:"Roblox",       icon:"🧱", bg:"#fff5f5", url:u=>`https://roblox.com/user.aspx?username=${u}`,    method:"link" },
 ];
 
-// ── State ─────────────────────────────────────────────────────────────────────
-let results = {};   // index → "available" | "taken" | "link"
+let uResults = {};
 let currentUsername = "";
 let available = 0, taken = 0, manual = 0;
 
-// ── Check all ─────────────────────────────────────────────────────────────────
 function checkAll() {
   const input = document.getElementById("usernameInput");
   const username = input.value.trim().replace(/^@/, "");
   if (!username) { input.focus(); return; }
 
-  // GA event
-  if (typeof gtag !== "undefined") {
+  if (typeof gtag !== "undefined")
     gtag("event", "search", { event_category: "username", event_label: username });
-  }
 
   currentUsername = username;
-  results = {};
+  uResults = {};
   available = 0; taken = 0; manual = 0;
 
   document.getElementById("resultUsername").textContent = `@${username}`;
@@ -483,26 +645,23 @@ function checkAll() {
   document.getElementById("grid").innerHTML = "";
   updateCounts();
 
-  // Reset filter to All
-  document.querySelectorAll(".filter-btn").forEach((b,i) => b.classList.toggle("active", i===0));
+  document.querySelectorAll(".filter-btn").forEach((b, i) => b.classList.toggle("active", i === 0));
 
-  // Render loading cards
   PLATFORMS.forEach((p, i) => {
     const card = makeCard(i, p, username, "loading");
     document.getElementById("grid").appendChild(card);
   });
 
-  // Check each
   PLATFORMS.forEach((p, i) => {
     if (p.method === "api") {
-      checkViaApi(p, i, username).then(result => setResult(i, p, username, result));
+      checkViaApi(p, username).then(r => setResult(i, p, username, r));
     } else {
-      setTimeout(() => setResult(i, p, username, "link"), 200 + i * 60);
+      setTimeout(() => setResult(i, p, username, "link"), 200 + i * 55);
     }
   });
 }
 
-async function checkViaApi(platform, index, username) {
+async function checkViaApi(platform, username) {
   try {
     const headers = platform.name === "GitHub"
       ? { "Accept": "application/vnd.github.v3+json" } : {};
@@ -514,7 +673,7 @@ async function checkViaApi(platform, index, username) {
 }
 
 function setResult(i, p, username, result) {
-  results[i] = result;
+  uResults[i] = result;
   if (result === "available") available++;
   else if (result === "taken") taken++;
   else manual++;
@@ -524,11 +683,9 @@ function setResult(i, p, username, result) {
   if (!old) return;
   const card = makeCard(i, p, username, result);
 
-  // Keep hidden state if filtered
   const activeFilter = document.querySelector(".filter-btn.active")?.dataset?.filter || "all";
-  if (activeFilter !== "all" && card.dataset.status !== activeFilter) {
+  if (activeFilter !== "all" && card.dataset.status !== activeFilter)
     card.classList.add("hidden");
-  }
 
   old.replaceWith(card);
 }
@@ -539,15 +696,10 @@ function makeCard(i, p, username, status) {
   card.dataset.status = status;
 
   let badgeClass, badgeText, cardClass;
-  if (status === "available") {
-    badgeClass = "badge-available"; badgeText = "✓ Available"; cardClass = "available";
-  } else if (status === "taken") {
-    badgeClass = "badge-taken";     badgeText = "✗ Taken";     cardClass = "taken";
-  } else if (status === "link") {
-    badgeClass = "badge-check";     badgeText = "→ Check";     cardClass = "checking";
-  } else {
-    badgeClass = "badge-loading";   badgeText = '<span class="spinner"></span>'; cardClass = "";
-  }
+  if (status === "available")      { badgeClass = "badge-available"; badgeText = "✓ Available"; cardClass = "available"; }
+  else if (status === "taken")     { badgeClass = "badge-taken";     badgeText = "✗ Taken";     cardClass = "taken"; }
+  else if (status === "link")      { badgeClass = "badge-check";     badgeText = "→ Check";     cardClass = "checking"; }
+  else                             { badgeClass = "badge-loading";   badgeText = '<span class="spinner"></span>'; cardClass = ""; }
 
   card.className = `card ${cardClass}`;
 
@@ -555,9 +707,8 @@ function makeCard(i, p, username, status) {
     card.style.cursor = "pointer";
     card.onclick = () => {
       window.open(p.url(username), "_blank");
-      if (typeof gtag !== "undefined") {
+      if (typeof gtag !== "undefined")
         gtag("event", "click_platform", { event_category: "platform", event_label: p.name });
-      }
     };
   }
 
@@ -572,69 +723,220 @@ function makeCard(i, p, username, status) {
   return card;
 }
 
-// ── Counts ────────────────────────────────────────────────────────────────────
 function updateCounts() {
   document.getElementById("countAvailable").textContent = `${available} Available`;
   document.getElementById("countTaken").textContent     = `${taken} Taken`;
   document.getElementById("countCheck").textContent     = `${manual} Check Manually`;
 }
 
-// ── Filter ────────────────────────────────────────────────────────────────────
 function filterCards(filter, btn) {
   document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
   btn.classList.add("active");
-  btn.dataset.filter = filter;
-
   document.querySelectorAll(".card").forEach(card => {
-    const status = card.dataset.status;
+    const s = card.dataset.status;
     const show = filter === "all"
-      || (filter === "available" && status === "available")
-      || (filter === "taken"     && status === "taken")
-      || (filter === "checking"  && status === "link");
+      || (filter === "available" && s === "available")
+      || (filter === "taken"     && s === "taken")
+      || (filter === "checking"  && s === "link");
     card.classList.toggle("hidden", !show);
   });
 }
 
-// ── Copy available usernames ──────────────────────────────────────────────────
 function copyAvailable() {
-  const availablePlatforms = PLATFORMS
-    .filter((_, i) => results[i] === "available")
+  const list = PLATFORMS
+    .filter((_, i) => uResults[i] === "available")
     .map(p => `${p.name}: ${p.url(currentUsername)}`);
 
-  if (availablePlatforms.length === 0) {
-    showToast("No available usernames found yet!");
-    return;
-  }
+  if (!list.length) { showToast("No available usernames found yet!"); return; }
 
-  const text = `@${currentUsername} is available on:\n\n` + availablePlatforms.join("\n");
-  navigator.clipboard.writeText(text).then(() => {
+  navigator.clipboard.writeText(`@${currentUsername} is available on:\n\n` + list.join("\n")).then(() => {
     const btn = document.getElementById("copyBtn");
     btn.textContent = "✓ Copied!";
     btn.classList.add("copied");
-    setTimeout(() => {
-      btn.innerHTML = "📋 Copy Available Usernames";
-      btn.classList.remove("copied");
-    }, 2500);
-    showToast(`Copied ${availablePlatforms.length} available username(s)!`);
-
-    if (typeof gtag !== "undefined") {
-      gtag("event", "copy_available", { event_category: "engagement", value: availablePlatforms.length });
-    }
+    setTimeout(() => { btn.innerHTML = "📋 Copy Available"; btn.classList.remove("copied"); }, 2500);
+    showToast(`Copied ${list.length} available platform(s)!`);
+    if (typeof gtag !== "undefined")
+      gtag("event", "copy_available", { event_category: "engagement", value: list.length });
   });
 }
 
-// ── Toast ─────────────────────────────────────────────────────────────────────
+document.getElementById("usernameInput").addEventListener("keydown", e => {
+  if (e.key === "Enter") checkAll();
+});
+
+// ══════════════════════════════════════════════════════
+// PEOPLE FINDER
+// ══════════════════════════════════════════════════════
+const PEOPLE_SITES = [
+  {
+    name: "Google Search",
+    icon: "🔍", bg: "#f0f8ff",
+    desc: "Search Google for public information",
+    url: (f, l, loc) => `https://google.com/search?q=${encodeURIComponent(`"${f} ${l}" ${loc}`)}`,
+  },
+  {
+    name: "LinkedIn",
+    icon: "💼", bg: "#f0f4ff",
+    desc: "Professional profile & work history",
+    url: (f, l) => `https://linkedin.com/search/results/people/?keywords=${encodeURIComponent(`${f} ${l}`)}`,
+  },
+  {
+    name: "Facebook",
+    icon: "👤", bg: "#f0f5ff",
+    desc: "Search Facebook profiles",
+    url: (f, l) => `https://facebook.com/search/people/?q=${encodeURIComponent(`${f} ${l}`)}`,
+  },
+  {
+    name: "Twitter / X",
+    icon: "✖️", bg: "#f0f8ff",
+    desc: "Find their Twitter/X account",
+    url: (f, l) => `https://x.com/search?q=${encodeURIComponent(`${f} ${l}`)}&f=user`,
+  },
+  {
+    name: "Instagram",
+    icon: "📸", bg: "#fff0f5",
+    desc: "Search Instagram profiles",
+    url: (f, l) => `https://instagram.com/explore/search/keyword/?q=${encodeURIComponent(`${f} ${l}`)}`,
+  },
+  {
+    name: "TikTok",
+    icon: "🎵", bg: "#f0fffe",
+    desc: "Find their TikTok account",
+    url: (f, l) => `https://tiktok.com/search/user?q=${encodeURIComponent(`${f} ${l}`)}`,
+  },
+  {
+    name: "Whitepages",
+    icon: "📖", bg: "#f0f8ff",
+    desc: "Phone numbers, addresses & public records",
+    url: (f, l, loc) => `https://whitepages.com/name/${encodeURIComponent(f)}_${encodeURIComponent(l)}/${encodeURIComponent(loc || '')}`,
+  },
+  {
+    name: "Spokeo",
+    icon: "🗂️", bg: "#fff5f0",
+    desc: "People search with contact info",
+    url: (f, l, loc) => `https://spokeo.com/${encodeURIComponent(f)}-${encodeURIComponent(l)}`,
+  },
+  {
+    name: "TruePeopleSearch",
+    icon: "🔎", bg: "#f5fff0",
+    desc: "Free public records search",
+    url: (f, l, loc) => `https://truepeoplesearch.com/results?name=${encodeURIComponent(`${f} ${l}`)}&citystatezip=${encodeURIComponent(loc || '')}`,
+  },
+  {
+    name: "FastPeopleSearch",
+    icon: "⚡", bg: "#fff8f0",
+    desc: "Fast free people lookup",
+    url: (f, l, loc) => `https://fastpeoplesearch.com/name/${encodeURIComponent(f)}_${encodeURIComponent(l)}`,
+  },
+  {
+    name: "BeenVerified",
+    icon: "✅", bg: "#f0fff5",
+    desc: "Background checks & contact info",
+    url: (f, l) => `https://beenverified.com/people/${encodeURIComponent(f)}-${encodeURIComponent(l)}`,
+  },
+  {
+    name: "Intelius",
+    icon: "🔬", bg: "#f5f0ff",
+    desc: "People search & background reports",
+    url: (f, l) => `https://intelius.com/people-search/name-search-results.html?firstName=${encodeURIComponent(f)}&lastName=${encodeURIComponent(l)}`,
+  },
+  {
+    name: "PeopleFinders",
+    icon: "📂", bg: "#fff5f5",
+    desc: "Find contact info & addresses",
+    url: (f, l, loc) => `https://peoplefinders.com/people/${encodeURIComponent(f)}+${encodeURIComponent(l)}`,
+  },
+  {
+    name: "ZabaSearch",
+    icon: "🗃️", bg: "#f8f5ff",
+    desc: "Free people search engine",
+    url: (f, l, loc) => `https://zabasearch.com/people/${encodeURIComponent(f)}+${encodeURIComponent(l)}/`,
+  },
+  {
+    name: "411.com",
+    icon: "📞", bg: "#f0fff8",
+    desc: "Phone book & address lookup",
+    url: (f, l, loc) => `https://411.com/name/${encodeURIComponent(f)}-${encodeURIComponent(l)}`,
+  },
+  {
+    name: "GitHub",
+    icon: "🐙", bg: "#f0f6ff",
+    desc: "Find their developer profile",
+    url: (f, l) => `https://github.com/search?q=${encodeURIComponent(`${f} ${l}`)}&type=users`,
+  },
+  {
+    name: "Reddit",
+    icon: "🤖", bg: "#fff1ec",
+    desc: "Search Reddit for this person",
+    url: (f, l) => `https://reddit.com/search/?q=${encodeURIComponent(`${f} ${l}`)}&type=user`,
+  },
+  {
+    name: "YouTube",
+    icon: "▶️", bg: "#fff5f5",
+    desc: "Find their YouTube channel",
+    url: (f, l) => `https://youtube.com/results?search_query=${encodeURIComponent(`${f} ${l}`)}`,
+  },
+];
+
+function findPeople() {
+  const first = document.getElementById("firstName").value.trim();
+  const last  = document.getElementById("lastName").value.trim();
+  const loc   = document.getElementById("locationInput").value.trim();
+
+  if (!first || !last) {
+    showToast("Please enter first and last name");
+    return;
+  }
+
+  if (typeof gtag !== "undefined")
+    gtag("event", "people_search", { event_category: "people_finder", event_label: `${first} ${last}` });
+
+  document.getElementById("personName").textContent = `${first} ${last}${loc ? ` in ${loc}` : ""}`;
+  document.getElementById("peopleResults").classList.add("visible");
+
+  const grid = document.getElementById("peopleGrid");
+  grid.innerHTML = "";
+
+  PEOPLE_SITES.forEach(site => {
+    const card = document.createElement("a");
+    card.className = "people-card";
+    card.href = site.url(first, last, loc);
+    card.target = "_blank";
+    card.rel = "noopener noreferrer";
+
+    card.innerHTML = `
+      <div class="people-site-icon" style="background:${site.bg}">${site.icon}</div>
+      <div class="people-card-info">
+        <div class="people-site-name">${site.name}</div>
+        <div class="people-site-desc">${site.desc}</div>
+      </div>
+      <div class="people-arrow">→</div>
+    `;
+
+    card.onclick = () => {
+      if (typeof gtag !== "undefined")
+        gtag("event", "click_people_site", { event_category: "people_finder", event_label: site.name });
+    };
+
+    grid.appendChild(card);
+  });
+}
+
+["firstName", "lastName", "locationInput"].forEach(id => {
+  document.getElementById(id).addEventListener("keydown", e => {
+    if (e.key === "Enter") findPeople();
+  });
+});
+
+// ══════════════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════════════
 function showToast(msg) {
   const t = document.getElementById("toast");
   t.textContent = msg;
   t.classList.add("show");
   setTimeout(() => t.classList.remove("show"), 3000);
 }
-
-// ── Enter key ─────────────────────────────────────────────────────────────────
-document.getElementById("usernameInput").addEventListener("keydown", e => {
-  if (e.key === "Enter") checkAll();
-});
 </script>
 </body>
 </html>
