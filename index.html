@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Youooo — Username Checker</title>
+  <meta name="description" content="Check if your username is available across Instagram, TikTok, Twitter, YouTube, GitHub, Reddit and 10+ more platforms instantly." />
+  <meta property="og:title" content="Youooo — Username Checker" />
+  <meta property="og:description" content="Check your username across 15+ platforms in one click." />
+  <meta property="og:url" content="https://youooo.com" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0a0a0f;
+      --card:     #13131a;
+      --border:   #1e1e2e;
+      --accent:   #7c3aed;
+      --accent2:  #06b6d4;
+      --green:    #10b981;
+      --red:      #ef4444;
+      --yellow:   #f59e0b;
+      --text:     #e2e8f0;
+      --muted:    #64748b;
+      --radius:   14px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      width: 100%;
+      text-align: center;
+      padding: 64px 24px 48px;
+      background: radial-gradient(ellipse 80% 50% at 50% -10%, #7c3aed22, transparent);
+    }
+
+    .logo {
+      font-size: 2.8rem;
+      font-weight: 900;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #a78bfa, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tagline {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    /* ── SEARCH ── */
+    .search-wrap {
+      width: 100%;
+      max-width: 580px;
+      margin: 36px auto 0;
+      padding: 0 20px;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 10px;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 50px;
+      padding: 6px 6px 6px 22px;
+      transition: border-color .2s;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px #7c3aed22;
+    }
+
+    .search-box input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-size: 1.1rem;
+      min-width: 0;
+    }
+
+    .search-box input::placeholder { color: var(--muted); }
+
+    .search-box button {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      border: none;
+      border-radius: 40px;
+      padding: 12px 28px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity .2s, transform .1s;
+    }
+
+    .search-box button:hover  { opacity: .88; }
+    .search-box button:active { transform: scale(.97); }
+
+    .hint {
+      text-align: center;
+      margin-top: 12px;
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    /* ── RESULTS ── */
+    .results {
+      width: 100%;
+      max-width: 900px;
+      padding: 40px 20px 80px;
+      display: none;
+    }
+
+    .results.visible { display: block; }
+
+    .results-title {
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .results-title span {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    /* summary bar */
+    .summary {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .summary-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .95rem;
+    }
+
+    .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+
+    .dot.green  { background: var(--green);  }
+    .dot.red    { background: var(--red);    }
+    .dot.yellow { background: var(--yellow); }
+
+    /* grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: border-color .2s, transform .15s;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+
+    .card.available::before  { background: linear-gradient(135deg, #10b98108, #10b98103); }
+    .card.taken::before      { background: linear-gradient(135deg, #ef444408, #ef444403); }
+    .card.checking::before   { background: linear-gradient(135deg, #f59e0b08, #f59e0b03); }
+
+    .card:hover { transform: translateY(-2px); }
+    .card.available { border-color: #10b98140; }
+    .card.taken     { border-color: #ef444440; }
+
+    .platform-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .card-info { flex: 1; min-width: 0; }
+
+    .platform-name {
+      font-weight: 700;
+      font-size: .95rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .platform-url {
+      font-size: .78rem;
+      color: var(--muted);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .status-badge {
+      font-size: .75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .badge-available { background: #10b98120; color: var(--green); }
+    .badge-taken     { background: #ef444420; color: var(--red);   }
+    .badge-check     { background: #f59e0b20; color: var(--yellow);}
+    .badge-loading   { background: #64748b20; color: var(--muted); }
+
+    /* spinner */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner {
+      width: 14px; height: 14px;
+      border: 2px solid var(--muted);
+      border-top-color: var(--accent2);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: inline-block;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      text-align: center;
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    footer a { color: var(--accent2); text-decoration: none; }
+
+    @media (max-width: 500px) {
+      .logo { font-size: 2rem; }
+      .search-box button { padding: 11px 18px; font-size: .9rem; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="logo">youooo ✦</div>
+  <p class="tagline">Check your username across 15+ platforms instantly</p>
+
+  <div class="search-wrap">
+    <div class="search-box">
+      <input type="text" id="usernameInput" placeholder="Enter username..." maxlength="50"
+             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+      <button id="checkBtn" onclick="checkAll()">Check</button>
+    </div>
+  </div>
+  <p class="hint">No sign-up needed · 100% free · Results in seconds</p>
+</div>
+
+<div class="results" id="results">
+  <div class="results-title">Results for <span id="resultUsername"></span></div>
+
+  <div class="summary">
+    <div class="summary-item"><div class="dot green"></div><span id="countAvailable">0 Available</span></div>
+    <div class="summary-item"><div class="dot red"></div><span id="countTaken">0 Taken</span></div>
+    <div class="summary-item"><div class="dot yellow"></div><span id="countCheck">0 Check Manually</span></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<footer>
+  Made with ♥ · <a href="https://youooo.com">youooo.com</a>
+</footer>
+
+<script>
+// ── Platform definitions ──────────────────────────────────────────────────────
+// method: "api" = we can actually check via fetch | "link" = open link for user
+
+const PLATFORMS = [
+  { name: "GitHub",    icon: "🐙", color: "#24292e", bg: "#f0f6ff",
+    url: u => `https://github.com/${u}`,
+    method: "api",
+    api: u => `https://api.github.com/users/${u}`,
+  },
+  { name: "Reddit",    icon: "🤖", color: "#ff4500", bg: "#fff1ec",
+    url: u => `https://reddit.com/user/${u}`,
+    method: "api",
+    api: u => `https://www.reddit.com/user/${u}/about.json`,
+  },
+  { name: "Instagram", icon: "📸", color: "#e1306c", bg: "#fff0f5",
+    url: u => `https://instagram.com/${u}`,
+    method: "link",
+  },
+  { name: "TikTok",    icon: "🎵", color: "#010101", bg: "#f0fffe",
+    url: u => `https://tiktok.com/@${u}`,
+    method: "link",
+  },
+  { name: "Twitter / X", icon: "✖️", color: "#000", bg: "#f0f8ff",
+    url: u => `https://x.com/${u}`,
+    method: "link",
+  },
+  { name: "YouTube",   icon: "▶️", color: "#ff0000", bg: "#fff5f5",
+    url: u => `https://youtube.com/@${u}`,
+    method: "link",
+  },
+  { name: "Pinterest", icon: "📌", color: "#e60023", bg: "#fff5f5",
+    url: u => `https://pinterest.com/${u}`,
+    method: "link",
+  },
+  { name: "Twitch",    icon: "🎮", color: "#9146ff", bg: "#f8f0ff",
+    url: u => `https://twitch.tv/${u}`,
+    method: "link",
+  },
+  { name: "LinkedIn",  icon: "💼", color: "#0077b5", bg: "#f0f8ff",
+    url: u => `https://linkedin.com/in/${u}`,
+    method: "link",
+  },
+  { name: "Snapchat",  icon: "👻", color: "#fffc00", bg: "#fffef0",
+    url: u => `https://snapchat.com/add/${u}`,
+    method: "link",
+  },
+  { name: "Telegram",  icon: "✈️", color: "#2ca5e0", bg: "#f0f9ff",
+    url: u => `https://t.me/${u}`,
+    method: "link",
+  },
+  { name: "Discord",   icon: "🎧", color: "#5865f2", bg: "#f3f4ff",
+    url: u => `https://discord.com`,
+    method: "link",
+    note: "Search in Discord app",
+  },
+  { name: "Spotify",   icon: "🎧", color: "#1db954", bg: "#f0fff5",
+    url: u => `https://open.spotify.com/user/${u}`,
+    method: "link",
+  },
+  { name: "Medium",    icon: "📝", color: "#000", bg: "#f8f8f8",
+    url: u => `https://medium.com/@${u}`,
+    method: "link",
+  },
+  { name: "Behance",   icon: "🎨", color: "#1769ff", bg: "#f0f5ff",
+    url: u => `https://behance.net/${u}`,
+    method: "link",
+  },
+];
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let currentUsername = "";
+
+// ── Main check ───────────────────────────────────────────────────────────────
+function checkAll() {
+  const input = document.getElementById("usernameInput");
+  const username = input.value.trim().replace(/^@/, "");
+  if (!username) { input.focus(); return; }
+
+  currentUsername = username;
+  document.getElementById("resultUsername").textContent = `@${username}`;
+  document.getElementById("results").classList.add("visible");
+  document.getElementById("grid").innerHTML = "";
+  document.getElementById("countAvailable").textContent = "0 Available";
+  document.getElementById("countTaken").textContent     = "0 Taken";
+  document.getElementById("countCheck").textContent     = "0 Check Manually";
+
+  let available = 0, taken = 0, manual = 0;
+
+  // Render all cards as loading first
+  PLATFORMS.forEach((p, i) => {
+    const card = document.createElement("div");
+    card.className = "card checking";
+    card.id = `card-${i}`;
+    card.innerHTML = `
+      <div class="platform-icon" style="background:${p.bg}">${p.icon}</div>
+      <div class="card-info">
+        <div class="platform-name">${p.name}</div>
+        <div class="platform-url">${p.url(username)}</div>
+      </div>
+      <span class="status-badge badge-loading"><span class="spinner"></span></span>
+    `;
+    document.getElementById("grid").appendChild(card);
+  });
+
+  // Check each platform
+  PLATFORMS.forEach((p, i) => {
+    if (p.method === "api") {
+      checkViaApi(p, i, username).then(result => {
+        updateCard(i, p, username, result);
+        if (result === "available") available++;
+        else if (result === "taken") taken++;
+        else manual++;
+        updateCounts(available, taken, manual);
+      });
+    } else {
+      // Link-based — show as "check manually" with direct link
+      setTimeout(() => {
+        updateCard(i, p, username, "link");
+        manual++;
+        updateCounts(available, taken, manual);
+      }, 300 + i * 80);
+    }
+  });
+}
+
+async function checkViaApi(platform, index, username) {
+  try {
+    const res = await fetch(platform.api(username), {
+      headers: platform.name === "GitHub" ? { "Accept": "application/vnd.github.v3+json" } : {},
+    });
+    if (res.status === 404) return "available";
+    if (res.ok)             return "taken";
+    return "link";
+  } catch {
+    return "link";
+  }
+}
+
+function updateCard(i, p, username, result) {
+  const card = document.getElementById(`card-${i}`);
+  if (!card) return;
+
+  let badgeClass, badgeText, cardClass, linkable;
+
+  if (result === "available") {
+    badgeClass = "badge-available"; badgeText = "✓ Available";
+    cardClass  = "available"; linkable = false;
+  } else if (result === "taken") {
+    badgeClass = "badge-taken"; badgeText = "✗ Taken";
+    cardClass  = "taken"; linkable = true;
+  } else {
+    badgeClass = "badge-check"; badgeText = "→ Check";
+    cardClass  = "checking"; linkable = true;
+  }
+
+  card.className = `card ${cardClass}`;
+
+  if (linkable) {
+    card.style.cursor = "pointer";
+    card.onclick = () => window.open(p.url(username), "_blank");
+    card.title = `Open ${p.name} profile`;
+  }
+
+  card.innerHTML = `
+    <div class="platform-icon" style="background:${p.bg}">${p.icon}</div>
+    <div class="card-info">
+      <div class="platform-name">${p.name}</div>
+      <div class="platform-url">${p.note || p.url(username)}</div>
+    </div>
+    <span class="status-badge ${badgeClass}">${badgeText}</span>
+  `;
+}
+
+function updateCounts(a, t, m) {
+  document.getElementById("countAvailable").textContent = `${a} Available`;
+  document.getElementById("countTaken").textContent     = `${t} Taken`;
+  document.getElementById("countCheck").textContent     = `${m} Check Manually`;
+}
+
+// ── Enter key ────────────────────────────────────────────────────────────────
+document.getElementById("usernameInput").addEventListener("keydown", e => {
+  if (e.key === "Enter") checkAll();
+});
+</script>
+</body>
+</html>
