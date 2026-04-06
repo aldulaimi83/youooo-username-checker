@@ -958,9 +958,54 @@
       .domain-grid { grid-template-columns: 1fr; }
       .domain-actions { flex-direction: column; gap: 6px; }
     }
+  /* ══════════════════════════════════
+     SPLASH SCREEN
+  ══════════════════════════════════ */
+  #splash {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s ease;
+  }
+
+  #splash.fade-out {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  #splash img {
+    width: min(420px, 80vw);
+    animation: splashPulse 1.2s ease-in-out infinite alternate;
+  }
+
+  @keyframes splashPulse {
+    from { transform: scale(1);   opacity: 0.9; }
+    to   { transform: scale(1.04); opacity: 1;  }
+  }
+
   </style>
 </head>
 <body>
+
+<!-- ════════════════════ SPLASH ════════════════════ -->
+<div id="splash">
+  <img src="youooo_logo.png" alt="Youooo" />
+</div>
+
+<script>
+  (function() {
+    var splash = document.getElementById('splash');
+    setTimeout(function() {
+      splash.classList.add('fade-out');
+      setTimeout(function() { splash.style.display = 'none'; }, 800);
+    }, 5000);
+  })();
+</script>
 
 <!-- ════════════════════ NAV ════════════════════ -->
 <nav>
