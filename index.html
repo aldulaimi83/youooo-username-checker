@@ -945,18 +945,123 @@
       text-align: center;
     }
 
+    /* ══════════════════════════════════
+       HAMBURGER BUTTON
+    ══════════════════════════════════ */
+    .nav-burger {
+      display: none;
+      background: none;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      color: var(--white);
+      cursor: pointer;
+      padding: 7px 10px;
+      line-height: 1;
+      font-size: 1.1rem;
+      transition: background .2s;
+    }
+    .nav-burger:hover { background: rgba(255,255,255,0.08); }
+
+    /* ══════════════════════════════════
+       MOBILE SLIDE-DOWN MENU
+    ══════════════════════════════════ */
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      top: 70px;
+      left: 0; right: 0;
+      background: rgba(10,10,10,0.97);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 12px 20px 20px;
+      flex-direction: column;
+      z-index: 99;
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: .95rem;
+      font-weight: 500;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: block;
+      transition: color .2s;
+    }
+    .nav-mobile a:last-child { border-bottom: none; color: var(--white); font-weight: 700; }
+    .nav-mobile a:hover { color: var(--white); }
+
     @media (max-width: 768px) {
-      nav { padding: 0 20px; }
+      /* Nav */
+      nav { padding: 0 16px; }
       .nav-links { display: none; }
-      .hero { padding: 100px 20px 80px; }
-      .hero-title { letter-spacing: -2px; }
-      .results-section, .people-section, .features, .domain-section { padding: 60px 20px; }
-      footer { padding: 32px 20px; }
+      .nav-burger { display: flex; align-items: center; }
+
+      /* Hero */
+      .hero { padding: 90px 18px 72px; }
+      .hero-title { letter-spacing: -1.5px; }
+      .hero-sub { font-size: 1rem; margin-bottom: 36px; }
+
+      /* Tab row — scroll horizontally, no wrap */
+      .hero-tabs {
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        border-radius: 16px;
+        width: 100%;
+        max-width: 100%;
+        justify-content: flex-start;
+        padding: 4px;
+      }
+      .hero-tabs::-webkit-scrollbar { display: none; }
+      .hero-tab {
+        padding: 9px 16px;
+        font-size: .82rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      /* Search bar — stack button below input on mobile */
+      .username-row {
+        flex-direction: column;
+        border-radius: 16px;
+        padding: 14px 16px;
+        gap: 10px;
+        align-items: stretch;
+      }
+      .username-row input { font-size: 1rem; }
+      .username-row button {
+        border-radius: 10px;
+        padding: 14px;
+        width: 100%;
+        font-size: 1rem;
+      }
+
+      /* Results */
+      .results-section, .people-section, .features, .domain-section { padding: 48px 16px; }
+      .results-header { flex-direction: column; align-items: flex-start; gap: 14px; }
+      .copy-btn { width: 100%; text-align: center; }
+
+      /* Grids */
       .feature-grid { grid-template-columns: 1fr; }
       .people-grid { grid-template-columns: 1fr; }
       .people-fields { grid-template-columns: 1fr; }
       .domain-grid { grid-template-columns: 1fr; }
-      .domain-actions { flex-direction: column; gap: 6px; }
+      .domain-actions { flex-direction: row; flex-wrap: wrap; gap: 6px; }
+
+      /* Footer */
+      footer { padding: 32px 16px; flex-direction: column; align-items: flex-start; gap: 20px; }
+      .footer-links { flex-direction: column; gap: 12px; }
+      .footer-copy { margin-top: 4px; }
+
+      /* Registrar strip */
+      .registrar-strip { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+
+    @media (max-width: 400px) {
+      .hero-title { font-size: 2.6rem; }
+      .hero-tab { padding: 8px 12px; font-size: .78rem; }
     }
   /* ══════════════════════════════════
      SPLASH SCREEN
@@ -1019,7 +1124,17 @@
     <li><a href="#" onclick="activateTab('people')">People Finder</a></li>
     <li><a href="#" class="nav-cta" onclick="scrollToSearch()">Try Free</a></li>
   </ul>
+  <button class="nav-burger" id="navBurger" onclick="toggleMobileMenu()" aria-label="Menu">☰</button>
 </nav>
+
+<!-- Mobile nav menu -->
+<div class="nav-mobile" id="navMobile">
+  <a href="#" onclick="activateTab('username'); closeMobileMenu()">🔍 Username Checker</a>
+  <a href="#" onclick="activateTab('domain'); closeMobileMenu()">🌐 Domain Checker</a>
+  <a href="#" onclick="activateTab('people'); closeMobileMenu()">👤 People Finder</a>
+  <a href="#features" onclick="closeMobileMenu()">⚡ Features</a>
+  <a href="#" onclick="scrollToSearch(); closeMobileMenu()">Try Free →</a>
+</div>
 
 <!-- ════════════════════ HERO ════════════════════ -->
 <section class="hero" id="top">
@@ -1229,12 +1344,42 @@
     <li><a href="#" onclick="activateTab('people')">People Finder</a></li>
     <li><a href="#features">Features</a></li>
   </ul>
-  <div class="footer-copy">© 2026 youooo.com · Free username checker & people finder</div>
+  <ul class="footer-links">
+    <li><a href="https://resume.youooo.com" target="_blank" rel="noopener">📄 Resume Builder</a></li>
+    <li><a href="https://game.youooo.com" target="_blank" rel="noopener">🎮 Games</a></li>
+    <li><a href="https://linux.youooo.com" target="_blank" rel="noopener">🐧 Learn Linux</a></li>
+    <li><a href="https://dari.youooo.com" target="_blank" rel="noopener">🏠 Dari Real Estate</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 youooo.com · Free username checker, domain finder & people search</div>
 </footer>
 
 <div class="toast" id="toast"></div>
 
 <script>
+// ══════════════════════════════════════════════════
+// MOBILE MENU
+// ══════════════════════════════════════════════════
+function toggleMobileMenu() {
+  const menu = document.getElementById("navMobile");
+  const burger = document.getElementById("navBurger");
+  const open = menu.classList.toggle("open");
+  burger.textContent = open ? "✕" : "☰";
+}
+
+function closeMobileMenu() {
+  document.getElementById("navMobile").classList.remove("open");
+  document.getElementById("navBurger").textContent = "☰";
+}
+
+// Close menu when tapping outside
+document.addEventListener("click", function(e) {
+  const menu = document.getElementById("navMobile");
+  const burger = document.getElementById("navBurger");
+  if (menu.classList.contains("open") && !menu.contains(e.target) && !burger.contains(e.target)) {
+    closeMobileMenu();
+  }
+});
+
 // ══════════════════════════════════════════════════
 // TAB SWITCHING
 // ══════════════════════════════════════════════════
