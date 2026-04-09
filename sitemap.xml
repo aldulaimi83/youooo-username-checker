@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Main Site -->
+  <sitemap>
+    <loc>https://youooo.com/sitemap-main.xml</loc>
+  </sitemap>
+
+  <!-- Subdomains -->
+  <sitemap>
+    <loc>https://resume.youooo.com/sitemap.xml</loc>
+  </sitemap>
+
+  <sitemap>
+    <loc>https://game.youooo.com/sitemap.xml</loc>
+  </sitemap>
+
+  <sitemap>
+    <loc>https://dari.youooo.com/sitemap.xml</loc>
+  </sitemap>
+
+  <sitemap>
+    <loc>https://youooo.com/sitemap-tools.xml</loc>
+  </sitemap>
+
+</sitemapindex>
