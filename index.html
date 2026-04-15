@@ -9,6 +9,8 @@
   <meta property="og:description" content="Check usernames across 40+ platforms + find domains + find anyone. Free, instant, no sign-up." />
   <meta property="og:url" content="https://youooo.com" />
   <meta property="og:type" content="website" />
+  <meta property="og:title" content="YouOOO Network â€” Build, Learn, Play, and Explore" />
+  <meta property="og:description" content="One home for the YouOOO network: Quran, Resume, Games, Academy, and simple username and domain utilities." />
   <link rel="icon" href="youooo_logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -108,6 +110,80 @@
     }
 
     .nav-cta:hover { opacity: .85; }
+
+    .network-grid {
+      width: min(1180px, 100%);
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      margin: 0 auto 42px;
+    }
+
+    .network-card {
+      display: block;
+      text-align: left;
+      text-decoration: none;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      border-radius: 24px;
+      padding: 24px;
+      transition: transform .2s, border-color .2s, background .2s;
+    }
+
+    .network-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .network-kicker {
+      display: inline-block;
+      margin-bottom: 12px;
+      color: rgba(255,255,255,0.45);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: .72rem;
+      font-weight: 700;
+    }
+
+    .network-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+
+    .network-card p {
+      color: rgba(255,255,255,0.62);
+      line-height: 1.7;
+      font-size: .95rem;
+    }
+
+    .about-strip {
+      width: min(1180px, 100%);
+      margin: 0 auto 44px;
+      padding: 28px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      text-align: left;
+    }
+
+    .about-strip h2 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      margin-bottom: 12px;
+    }
+
+    .about-strip p,
+    .utility-note {
+      color: rgba(255,255,255,0.58);
+      line-height: 1.8;
+      max-width: 760px;
+    }
+
+    .utility-note {
+      margin-top: 14px;
+      font-size: .92rem;
+    }
 
     /* ══════════════════════════════════
        HERO
@@ -1040,6 +1116,8 @@
 
       /* Results */
       .results-section, .people-section, .features, .domain-section { padding: 48px 16px; }
+      .network-grid { grid-template-columns: 1fr; }
+      .about-strip { padding: 22px; }
       .results-header { flex-direction: column; align-items: flex-start; gap: 14px; }
       .copy-btn { width: 100%; text-align: center; }
 
@@ -1118,37 +1196,76 @@
     <img src="youooo_logo.png" alt="Youooo" class="nav-logo-img" />
   </a>
   <ul class="nav-links">
-    <li><a href="#features">Features</a></li>
-    <li><a href="#" onclick="activateTab('username')">Username</a></li>
-    <li><a href="#" onclick="activateTab('domain')">Domains</a></li>
-    <li><a href="#" onclick="activateTab('people')">People Finder</a></li>
-    <li><a href="#" class="nav-cta" onclick="scrollToSearch()">Try Free</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#utilities" onclick="activateTab('username')">Utilities</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#" class="nav-cta" onclick="scrollToProducts()">Explore Network</a></li>
   </ul>
   <button class="nav-burger" id="navBurger" onclick="toggleMobileMenu()" aria-label="Menu">☰</button>
 </nav>
 
 <!-- Mobile nav menu -->
 <div class="nav-mobile" id="navMobile">
-  <a href="#" onclick="activateTab('username'); closeMobileMenu()">🔍 Username Checker</a>
-  <a href="#" onclick="activateTab('domain'); closeMobileMenu()">🌐 Domain Checker</a>
-  <a href="#" onclick="activateTab('people'); closeMobileMenu()">👤 People Finder</a>
-  <a href="#features" onclick="closeMobileMenu()">⚡ Features</a>
-  <a href="#" onclick="scrollToSearch(); closeMobileMenu()">Try Free →</a>
+  <a href="#products" onclick="closeMobileMenu()">🌐 Products</a>
+  <a href="#utilities" onclick="activateTab('username'); closeMobileMenu()">🔍 Utilities</a>
+  <a href="#about" onclick="closeMobileMenu()">👋 About</a>
+  <a href="#" onclick="scrollToProducts(); closeMobileMenu()">Explore Network →</a>
 </div>
 
 <!-- ════════════════════ HERO ════════════════════ -->
 <section class="hero" id="top">
-  <p class="hero-eyebrow">Free · Instant · No sign-up needed</p>
+  <p class="hero-eyebrow">YouOOO Network</p>
 
   <h1 class="hero-title">
-    Your name.<br/>
-    <em>Every platform.</em>
+    Build, learn, play,<br/>
+    and explore with <em>YouOOO</em>.
   </h1>
 
   <p class="hero-sub">
-    Check if your username is taken across 40+ platforms at once.
-    Or find anyone by name — the modern phone book.
+    One home for your Quran reader, resume builder, games, academy projects,
+    and lightweight web utilities. The checker still lives here too, just lower on the page.
   </p>
+
+  <div class="network-grid" id="products">
+    <a class="network-card" href="https://quran.youooo.com" target="_blank" rel="noopener">
+      <span class="network-kicker">Quran</span>
+      <h3>Understand the Quran word by word</h3>
+      <p>Arabic text, translation, tafsir, audio, and guided reading for non-Arabic speakers.</p>
+    </a>
+    <a class="network-card" href="https://resume.youooo.com" target="_blank" rel="noopener">
+      <span class="network-kicker">Resume</span>
+      <h3>Build a smarter resume</h3>
+      <p>Create resumes, improve bullets, match job descriptions, and generate cover letters.</p>
+    </a>
+    <a class="network-card" href="https://game.youooo.com" target="_blank" rel="noopener">
+      <span class="network-kicker">Games</span>
+      <h3>Enter the YouOOO experimental world</h3>
+      <p>Interactive and cinematic experiences with a strong visual identity.</p>
+    </a>
+    <a class="network-card" href="https://linux.youooo.com" target="_blank" rel="noopener">
+      <span class="network-kicker">Academy</span>
+      <h3>Learn with structured projects</h3>
+      <p>Practical learning tools, guided tracks, and hands-on progress for technical growth.</p>
+    </a>
+    <a class="network-card" href="#utilities" onclick="activateTab('username')">
+      <span class="network-kicker">Utilities</span>
+      <h3>Keep the quick checker as a utility</h3>
+      <p>Username and domain checking still work here, but now they support the network instead of defining it.</p>
+    </a>
+    <a class="network-card" href="#about">
+      <span class="network-kicker">About</span>
+      <h3>The mission behind YouOOO</h3>
+      <p>A small network of products built with curiosity, usefulness, and a distinct point of view.</p>
+    </a>
+  </div>
+
+  <div class="about-strip" id="about">
+    <h2>YouOOO is stronger as a product network than as a single checker tool.</h2>
+    <p>
+      The right job for this homepage is to introduce the full ecosystem first, then keep lightweight tools like
+      username and domain checking as useful secondary utilities underneath.
+    </p>
+  </div>
 
   <!-- Tab switcher -->
   <div class="hero-tabs">
@@ -1161,6 +1278,10 @@
     <button class="hero-tab" id="tab-people" onclick="activateTab('people')">
       👤 People Finder
     </button>
+  </div>
+
+  <div class="utility-note" id="utilities">
+    Utilities by YouOOO: if you still want the quick checker, it starts here.
   </div>
 
   <!-- Username form -->
@@ -1339,18 +1460,16 @@
 <footer>
   <div class="footer-logo">youooo ✦</div>
   <ul class="footer-links">
-    <li><a href="#" onclick="activateTab('username')">Username Checker</a></li>
-    <li><a href="#" onclick="activateTab('domain')">Domain Checker</a></li>
-    <li><a href="#" onclick="activateTab('people')">People Finder</a></li>
-    <li><a href="#features">Features</a></li>
+    <li><a href="https://quran.youooo.com" target="_blank" rel="noopener">Quran</a></li>
+    <li><a href="https://resume.youooo.com" target="_blank" rel="noopener">Resume</a></li>
+    <li><a href="https://game.youooo.com" target="_blank" rel="noopener">Games</a></li>
   </ul>
   <ul class="footer-links">
-    <li><a href="https://resume.youooo.com" target="_blank" rel="noopener">📄 Resume Builder</a></li>
-    <li><a href="https://game.youooo.com" target="_blank" rel="noopener">🎮 Games</a></li>
-    <li><a href="https://linux.youooo.com" target="_blank" rel="noopener">🐧 Learn Linux</a></li>
-    <li><a href="https://dari.youooo.com" target="_blank" rel="noopener">🏠 Dari Real Estate</a></li>
+    <li><a href="https://linux.youooo.com" target="_blank" rel="noopener">Academy</a></li>
+    <li><a href="https://youooo.com/#about">About</a></li>
+    <li><a href="#utilities" onclick="activateTab('username')">Utilities</a></li>
   </ul>
-  <div class="footer-copy">© 2026 youooo.com · Free username checker, domain finder & people search</div>
+  <div class="footer-copy">© 2026 youooo.com · YouOOO Network home for Quran, Resume, Games, Academy, and utilities</div>
 </footer>
 
 <div class="toast" id="toast"></div>
@@ -1395,6 +1514,11 @@ function activateTab(tab) {
 
 function scrollToSearch() {
   document.getElementById("top").scrollIntoView({ behavior: "smooth" });
+}
+
+function scrollToProducts() {
+  const el = document.getElementById("products");
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function scrollToTop() {
